@@ -34,43 +34,30 @@ namespace NWCodeFirstMVC.Infrastructure.Services
 
         public async Task<List<SalesByCategoryDTO>> GetSalesByCategory(string categoryName, string orderYear)
         {
-            var salesData = new List<SalesByCategoryDTO>();
-
-            try
+            if (orderYear != "1996" && orderYear != "1997" && orderYear != "1998")
             {
-                using var connection = _dc.Database.GetDbConnection();
-                if (connection.State == ConnectionState.Closed)
-                {
-                    await connection.OpenAsync();
-                }
-
-                using var command = connection.CreateCommand();
-                command.CommandText = "SalesByCategory";
-                command.CommandType = CommandType.StoredProcedure;
-
-                // Add parameters
-                command.Parameters.AddRange(new[]
-                {
-                    new SqlParameter("@CategoryName", categoryName),
-                    new SqlParameter("@OrdYear", orderYear)
-                });
-
-                using var reader = await command.ExecuteReaderAsync();
-                while (await reader.ReadAsync())
-                {
-                    salesData.Add(new SalesByCategoryDTO
-                    {
-                        ProductName = reader["ProductName"].ToString(),
-                        TotalPurchase = reader.GetDecimal(reader.GetOrdinal("TotalPurchase")).ToString()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error retrieving sales data", ex);
+                orderYear = "1998";
             }
 
-            return salesData;
+            var query =
+                from od in _dc.OrderDetails
+                join o in _dc.Orders on od.OrderId equals o.OrderId
+                join p in _dc.Products on od.ProductId equals p.ProductId
+                join c in _dc.Categories on p.CategoryId equals c.CategoryId
+                where c.CategoryName == categoryName
+                      && o.OrderDate.Value.Year.ToString() == orderYear
+                group new { od, p } by p.ProductName into g
+                orderby g.Key
+                select new SalesByCategoryDTO
+                {
+                    ProductName = g.Key,
+                    TotalPurchase = Math.Round(
+                        g.Sum(x => x.od.Quantity * (1 - x.od.Discount) * x.od.UnitPrice),
+                        0
+                    ).ToString()
+                };
+
+            return await query.ToListAsync();
         }
 
 
