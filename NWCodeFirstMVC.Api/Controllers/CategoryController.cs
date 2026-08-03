@@ -38,10 +38,10 @@ namespace NWCodeFirstMVC.Api.Controllers
         }
 
 
-        [HttpGet("{categoryId}")]
-        public async Task<IActionResult> GetCustomerOrders(string categoryId)
+        [HttpGet("{customerId}")]
+        public async Task<IActionResult> GetCustomerOrders(string customerId)
         {
-            var categoryOrders = await categoryService.GetCustomerOrders(categoryId);
+            var categoryOrders = await categoryService.GetCustomerOrders(customerId);
             var categoryOrdersDto = mapper.Map<List<CustomerOrderDTO>>(categoryOrders);
             return Ok(categoryOrdersDto);
         }

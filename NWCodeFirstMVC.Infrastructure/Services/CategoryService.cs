@@ -45,7 +45,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                 join p in _dc.Products on od.ProductId equals p.ProductId
                 join c in _dc.Categories on p.CategoryId equals c.CategoryId
                 where c.CategoryName == categoryName
-                      && o.OrderDate.Value.Year.ToString() == orderYear
+                      && o.OrderDate.Year.ToString() == orderYear
                 group new { od, p } by p.ProductName into g
                 orderby g.Key
                 select new SalesByCategoryDTO

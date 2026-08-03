@@ -9,6 +9,7 @@ using NuGet.Protocol.Plugins;
 using NWCodeFirstMVC.Api.Configurations;
 using AutoMapper;
 using NWCodeFirstMVC.Infrastructure;
+using NWCodeFirstMVC.Api.Converters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,12 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Configuration.AddUserSecrets<Program>();
+builder.Services.AddControllers()
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+    options.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
+});
 
 NLog.LogManager.Setup().LoadConfiguration(builder => {
     builder.ForLogger().FilterMinLevel(NLog.LogLevel.Info).WriteToConsole();
