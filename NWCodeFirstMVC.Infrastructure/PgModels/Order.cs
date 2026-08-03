@@ -13,7 +13,7 @@ namespace NWCodeFirstMVC.Infrastructure.PgModels
         public short OrderId { get; set; }
         public string? CustomerId { get; set; }
         public short? EmployeeId { get; set; }
-        public DateOnly? OrderDate { get; set; }
+        public DateOnly OrderDate { get; set; }
         public DateOnly? RequiredDate { get; set; }
         public DateOnly? ShippedDate { get; set; }
         public short? ShipVia { get; set; }
