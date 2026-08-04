@@ -7,7 +7,7 @@ namespace NWCodeFirstMVC.Domain.PocoModels
     {
         public Category()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<ProductModel>();
         }
 
         public int CategoryId { get; set; }
@@ -16,6 +16,6 @@ namespace NWCodeFirstMVC.Domain.PocoModels
         public byte[]? Picture { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductModel> Products { get; set; }
     }
 }

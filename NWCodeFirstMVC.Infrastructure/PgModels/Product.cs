@@ -20,6 +20,8 @@ namespace NWCodeFirstMVC.Infrastructure.PgModels
         public short? UnitsOnOrder { get; set; }
         public short? ReorderLevel { get; set; }
         public int Discontinued { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
 
         public virtual Category? Category { get; set; }
         public virtual Supplier? Supplier { get; set; }

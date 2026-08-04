@@ -373,6 +373,10 @@ namespace NWCodeFirstMVC.Infrastructure
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.SupplierId)
                     .HasConstraintName("fk_products_suppliers");
+                entity.Property(e => e.IsDeleted)
+                      .HasColumnName("isdeleted")
+                      .HasDefaultValue(false);
+
             });
 
             modelBuilder.Entity<Region>(entity =>

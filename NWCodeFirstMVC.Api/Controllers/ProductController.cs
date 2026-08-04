@@ -82,8 +82,8 @@ namespace NWCodeFirstMVC.Api.Controllers
         [HttpPost("AddProduct")]
         public async Task<IActionResult> AddProduct(ProductDto createproduct)
         {
-            var product = mapper.Map<Product>(createproduct);
-            var results = await _productService.AddAsync(product);
+            var product = mapper.Map<ProductModel>(createproduct);
+            var result = await _productService.AddAsync(product);
             return CreatedAtAction("GetAllProduct", new { ProductId = product.ProductId }, product);
         }
 

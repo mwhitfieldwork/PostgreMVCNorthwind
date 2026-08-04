@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace NWCodeFirstMVC.Domain.PocoModels
 {
-    public partial class Product
+    public partial class ProductModel
     {
-        public Product()
+        public ProductModel()
         {
             OrderDetails = new HashSet<OrderDetail>();
         }
