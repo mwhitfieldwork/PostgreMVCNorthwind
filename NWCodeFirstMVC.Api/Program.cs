@@ -10,6 +10,8 @@ using NWCodeFirstMVC.Api.Configurations;
 using AutoMapper;
 using NWCodeFirstMVC.Infrastructure;
 using NWCodeFirstMVC.Api.Converters;
+using NWCodeFirstMVC.Infrastructure.Mapping;
+using NWCodeFirstMVC.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,15 +45,21 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericService<>));
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 builder.Configuration.AddUserSecrets<Program>();
+builder.Services.AddAutoMapper(typeof(ProductMappingProfile));
+builder.Services.AddScoped<ProductRepository>();
+
+
 builder.Services.AddControllers()
 .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
     options.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
 });
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 NLog.LogManager.Setup().LoadConfiguration(builder => {
     builder.ForLogger().FilterMinLevel(NLog.LogLevel.Info).WriteToConsole();

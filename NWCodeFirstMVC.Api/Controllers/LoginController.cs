@@ -14,11 +14,14 @@ namespace NWCodeFirstMVC.Api.Controllers
     {
         private readonly ILoginService _loginService;
         private readonly IMapper mapper;
+        private readonly IGenericRepository<NWCodeFirstMVC.Infrastructure.PgModels.User> _service;
 
-        public LoginController(ILoginService loginService, IMapper mapper)
+
+        public LoginController(ILoginService loginService, IMapper mapper, IGenericRepository<NWCodeFirstMVC.Infrastructure.PgModels.User> service)
         {
             _loginService = loginService;
             this.mapper = mapper;
+            _service = service;
         }
 
         [HttpGet]
@@ -31,7 +34,7 @@ namespace NWCodeFirstMVC.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _loginService.GetAsync(id);
+            var user = await _service.GetAsync(id);
 
             if (user == null)
             {

@@ -7,7 +7,7 @@ namespace NWCodeFirstMVC.Domain.PocoModels
     {
         public Supplier()
         {
-            Products = new HashSet<Product>();
+            Products = new HashSet<ProductModel>();
         }
 
         public int SupplierId { get; set; }
@@ -23,6 +23,6 @@ namespace NWCodeFirstMVC.Domain.PocoModels
         public string? Fax { get; set; }
         public string? HomePage { get; set; }
 
-        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<ProductModel> Products { get; set; }
     }
 }

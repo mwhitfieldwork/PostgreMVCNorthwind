@@ -11,9 +11,9 @@ namespace NWCodeFirstMVC.Api.Configurations
     {
         public MapperConfig()
         {
-            CreateMap<Product, ProductDto>().ReverseMap();
-            CreateMap<Product, GetProductDto>().ReverseMap();
-            CreateMap<Product, UpdateProductDto>().ReverseMap();
+            CreateMap<ProductModel, ProductDto>().ReverseMap();
+            CreateMap<ProductModel, GetProductDto>().ReverseMap();
+            CreateMap<ProductModel, UpdateProductDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<Category, GetCategoryDto>().ReverseMap();
             CreateMap<Employee, EmployeeDTO>().ReverseMap();
