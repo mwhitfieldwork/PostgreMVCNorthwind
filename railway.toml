@@ -1,0 +1,5 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+start = "dotnet run --project NWCodeFirstMVC.Api/NWCodeFirstMVC.Api.csproj"
