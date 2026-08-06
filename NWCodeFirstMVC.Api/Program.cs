@@ -51,7 +51,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericService<>));
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
-builder.Configuration.AddUserSecrets<Program>();
+//builder.Configuration.AddUserSecrets<Program>();
 builder.Services.AddAutoMapper(typeof(ProductMappingProfile));
 builder.Services.AddScoped<ProductRepository>();
 
