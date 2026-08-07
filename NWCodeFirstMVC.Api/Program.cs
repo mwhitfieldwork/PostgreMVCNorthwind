@@ -14,11 +14,11 @@ using NWCodeFirstMVC.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//if (builder.Environment.IsProduction())
-//{
+//if (builder.Environment.IsProduction())//for  prod
+//{//for  prod
     var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
     builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-//}
+//}//for  prod
 
 builder.Services.AddDbContext<PgNwContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
