@@ -14,12 +14,8 @@ using NWCodeFirstMVC.Infrastructure.Mapping;
 using NWCodeFirstMVC.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-if (builder.Environment.IsProduction())
-{
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-}
-
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 
 // Add services to the container.
@@ -83,7 +79,9 @@ app.UseRouting();
 app.UseAuthorization();
 app.UseStaticFiles();
 
-app.MapControllers();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();
