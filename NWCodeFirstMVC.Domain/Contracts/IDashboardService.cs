@@ -12,5 +12,9 @@ namespace NWCodeFirstMVC.Domain.Contracts
     {
         Task<List<TopCardTotalDTO>> GetAllTopCardTotals();
 
+        Task<List<TotalSalesCategoryDTO>> GetAllSalesTotals(
+            DateTime beginningDate,
+            DateTime endingDate);
+
     }
 }
