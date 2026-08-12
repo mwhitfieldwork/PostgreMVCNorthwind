@@ -30,6 +30,15 @@ namespace NWCodeFirstMVC.Api.Controllers
 
         }
 
+        [HttpGet("salestotals")]
+        public async Task<IActionResult> GetSalesTotalsValues(
+    DateTime beginningDate,
+    DateTime endingDate)
+        {
+            var totals = await dashboardService.GetAllSalesTotals(beginningDate, endingDate);
+            return Ok(totals);
+        }
+
         // GET: CategoryController
         [HttpGet]
         public async Task<IActionResult> GetAllCategories()

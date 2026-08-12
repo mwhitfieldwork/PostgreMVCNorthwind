@@ -48,5 +48,31 @@ namespace NWCodeFirstMVC.Infrastructure.Services
         }
 
 
+        public async Task<List<TotalSalesCategoryDTO>> GetAllSalesTotals(
+            DateTime beginningDate,
+            DateTime endingDate)
+        {
+            var begin = DateOnly.FromDateTime(beginningDate);
+            var end = DateOnly.FromDateTime(endingDate);
+
+            var results =
+                from e in _dc.Employees
+                join o in _dc.Orders on e.EmployeeId equals o.EmployeeId
+                where o.ShippedDate >= begin && o.ShippedDate <= end
+                select new TotalSalesCategoryDTO
+                {
+                    Country = e.Country,
+                    OrderId = o.OrderId,
+                    SaleAmount = _dc.OrderDetails
+                        .Where(od => od.OrderId == o.OrderId)
+                        .Sum(od => od.UnitPrice * od.Quantity)
+                };
+
+            return await results.ToListAsync();
+        }
+
+
+
+
     }
 }
