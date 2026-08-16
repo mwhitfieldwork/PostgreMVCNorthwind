@@ -68,7 +68,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                         .Sum(od => od.UnitPrice * od.Quantity)
                 };
 
-            return await results.ToListAsync();
+            return await results.Take(4).ToListAsync();
         }
 
 
