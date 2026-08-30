@@ -25,6 +25,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
 
         public async Task<GoogleTokenResponse> ExchangeCodeAsync(string code)
         {
+            Console.WriteLine($"Using redirect_uri: {_options.RedirectUri}");
             var form = new Dictionary<string, string>
             {
                 ["code"] = code,
