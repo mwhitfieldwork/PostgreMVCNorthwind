@@ -52,6 +52,8 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericService<>));
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.Configure<GoogleAuthOptions>(builder.Configuration.GetSection("GoogleAuth"));
+builder.Services.AddHttpClient<IGoogleAuthService, GoogleAuthService>();
 
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
