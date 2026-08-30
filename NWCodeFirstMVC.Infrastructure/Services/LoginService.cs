@@ -1,15 +1,17 @@
 ﻿using BCrypt.Net;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
 using NWCodeFirstMVC.Domain.Contracts;
-using NWCodeFirstMVC.Infrastructure;
 using NWCodeFirstMVC.Domain.PocoModels;
+using NWCodeFirstMVC.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static NWCodeFirstMVC.Domain.Models.GoogleAuthModels;
 
 namespace NWCodeFirstMVC.Infrastructure.Services
 {
@@ -45,6 +47,32 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                 // Token = token // Uncomment if a token is generated
             });
 
+        }
+        public async Task<IActionResult> AuthenticateWithGoogle(GoogleUserInfo googleUser)
+        {
+            var userDetails = await _dc.Users
+                .FirstOrDefaultAsync(x => x.Username == googleUser.Email);
+
+            if (userDetails == null)
+            {
+                userDetails = new NWCodeFirstMVC.Infrastructure.PgModels.User
+                {
+                    Username = googleUser.Email,
+                    Password = Guid.NewGuid().ToString(),
+                    Firstname = googleUser.Name,
+                    Admin = false,
+                    Occupation = string.Empty
+                };
+
+                _dc.Users.Add(userDetails);
+                await _dc.SaveChangesAsync();
+            }
+
+            return new OkObjectResult(new
+            {
+                Message = "Authentication successful.",
+                User = userDetails
+            });
         }
 
     }

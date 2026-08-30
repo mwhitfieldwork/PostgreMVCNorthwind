@@ -5,6 +5,7 @@ using NWCodeFirstMVC.Domain.Contracts;
 using NWCodeFirstMVC.Domain.Dto;
 using NWCodeFirstMVC.Domain.PocoModels;
 using NWCodeFirstMVC.Infrastructure.Services;
+using static NWCodeFirstMVC.Domain.Models.GoogleAuthModels;
 
 namespace NWCodeFirstMVC.Api.Controllers
 {
@@ -15,13 +16,19 @@ namespace NWCodeFirstMVC.Api.Controllers
         private readonly ILoginService _loginService;
         private readonly IMapper mapper;
         private readonly IGenericRepository<NWCodeFirstMVC.Infrastructure.PgModels.User> _service;
+        private readonly IGoogleAuthService _googleAuthService;
 
-
-        public LoginController(ILoginService loginService, IMapper mapper, IGenericRepository<NWCodeFirstMVC.Infrastructure.PgModels.User> service)
+        public LoginController(
+            ILoginService loginService, 
+            IMapper mapper, 
+            IGenericRepository<NWCodeFirstMVC.Infrastructure.PgModels.User> service,
+            IGoogleAuthService googleAuthService
+            )
         {
             _loginService = loginService;
             this.mapper = mapper;
             _service = service;
+            _googleAuthService = googleAuthService;
         }
 
         [HttpGet]
@@ -66,6 +73,25 @@ namespace NWCodeFirstMVC.Api.Controllers
             var user = mapper.Map<User>(createUser);
             var results = await _loginService.AddAsync(user);
             return Ok(user);
+        }
+
+        [HttpPost("GoogleCallback")]
+        public async Task<IActionResult> GoogleCallback([FromBody] GoogleTokenExchangeRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Code))
+                return BadRequest(new { message = "Missing authorization code." });
+
+            try
+            {
+                var tokenResponse = await _googleAuthService.ExchangeCodeAsync(request.Code);
+                var googleUser = await _googleAuthService.GetUserInfoAsync(tokenResponse.AccessToken);
+
+                return await _loginService.AuthenticateWithGoogle(googleUser);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }
