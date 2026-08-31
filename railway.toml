@@ -1,8 +1,6 @@
 [build]
 builder = "nixpacks"
-
-[phases.build]
-cmds = ["dotnet publish NWCodeFirstMVC.Api/NWCodeFirstMVC.Api.csproj -c Release -o out"]
+buildCommand = "dotnet publish NWCodeFirstMVC.Api/NWCodeFirstMVC.Api.csproj -c Release -o out"
 
 [deploy]
-start = "dotnet out/NWCodeFirstMVC.Api.dll"
+startCommand = "dotnet out/NWCodeFirstMVC.Api.dll"
