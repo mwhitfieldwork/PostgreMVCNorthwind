@@ -61,12 +61,18 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                     Password = Guid.NewGuid().ToString(),
                     Firstname = googleUser.Name,
                     Admin = false,
-                    Occupation = string.Empty
+                    Occupation = string.Empty,
+                    Picture = googleUser.Picture
                 };
 
                 _dc.Users.Add(userDetails);
-                await _dc.SaveChangesAsync();
             }
+            else
+            {
+                userDetails.Picture = googleUser.Picture;
+            }
+
+            await _dc.SaveChangesAsync();
 
             return new OkObjectResult(new
             {

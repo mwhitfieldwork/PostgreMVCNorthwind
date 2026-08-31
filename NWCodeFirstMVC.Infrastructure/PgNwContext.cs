@@ -528,6 +528,8 @@ namespace NWCodeFirstMVC.Infrastructure
 
                 entity.Property(e => e.Occupation)
                     .HasColumnName("occupation");
+                entity.Property(e => e.Picture)
+                    .HasColumnName("picture");
             });
 
             OnModelCreatingPartial(modelBuilder);
