@@ -1,15 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NWCodeFirstMVC.Domain;
-using NWCodeFirstMVC.Domain.Models;
+// removed reference to NWCodeFirstMVC.Domain.Models (SQL Server scaffold)
+using NWCodeFirstMVC.Domain.PocoModels;
+using NWCodeFirstMVC.Domain.Contracts;
 
 namespace NWCodeFirstMVC.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly northwindContext _dc;
-        public ProductsController(northwindContext dc)
+        private readonly IProductService _service;
+
+        public ProductsController(IProductService service)
         {
-            _dc = dc;
+            _service = service;
         }
 
         //[HttpGet]
@@ -35,18 +38,18 @@ namespace NWCodeFirstMVC.Controllers
         //    return Json(results);
         //}
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(_dc.Products.ToList());
+            var products = await _service.GetAllAsync();
+            return View(products);
         }
 
 
         public ActionResult View()
         {
-            Category model = new Category();
-            //model.Initialize(_dc);
+            NWCodeFirstMVC.Domain.PocoModels.Category model = new NWCodeFirstMVC.Domain.PocoModels.Category();
 
-            return View(model); 
+            return View(model);
         }
     }
 }

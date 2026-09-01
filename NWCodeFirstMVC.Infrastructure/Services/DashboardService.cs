@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NWCodeFirstMVC.Domain.Models;
+using NWCodeFirstMVC.Domain.PocoModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

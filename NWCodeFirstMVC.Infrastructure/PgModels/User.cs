@@ -13,7 +13,7 @@ namespace NWCodeFirstMVC.Infrastructure.PgModels
         public string Password { get; set; }
         public bool Admin { get; set; }
         public string Firstname { get; set; }
-        public string Occupation { get; set; }
+        public string? Occupation { get; set; }
         public string? Picture { get; set; }
     }
 }

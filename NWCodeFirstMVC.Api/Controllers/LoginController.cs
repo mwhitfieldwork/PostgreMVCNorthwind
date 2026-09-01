@@ -5,7 +5,7 @@ using NWCodeFirstMVC.Domain.Contracts;
 using NWCodeFirstMVC.Domain.Dto;
 using NWCodeFirstMVC.Domain.PocoModels;
 using NWCodeFirstMVC.Infrastructure.Services;
-using static NWCodeFirstMVC.Domain.Models.GoogleAuthModels;
+using static NWCodeFirstMVC.Domain.GoogleAuthModels;
 
 namespace NWCodeFirstMVC.Api.Controllers
 {
