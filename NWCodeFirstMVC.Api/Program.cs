@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NWCodeFirstMVC.Domain.Contracts;
 using NWCodeFirstMVC.Infrastructure.Services;
-using NWCodeFirstMVC.Domain.Models;
+using NWCodeFirstMVC.Domain;
 using NwCodeFirstMVC.Data;
 using NWCodeFirstMVC.Domain;
 using NLog;

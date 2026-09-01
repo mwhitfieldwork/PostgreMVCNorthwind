@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using NWCodeFirstMVC.Domain.Contracts;
-using NWCodeFirstMVC.Domain.Models;
+using NWCodeFirstMVC.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using static NWCodeFirstMVC.Domain.Models.GoogleAuthModels;
+using static NWCodeFirstMVC.Domain.GoogleAuthModels;
 
 namespace NWCodeFirstMVC.Infrastructure.Services
 {

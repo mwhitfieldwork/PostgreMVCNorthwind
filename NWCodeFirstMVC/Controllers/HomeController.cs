@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NWCodeFirstMVC.Models;
-using NWCodeFirstMVC.Domain.Models;
+// using NWCodeFirstMVC.Domain.Models; (removed - scaffold)
 using System.Diagnostics;
 using NWCodeFirstMVC.Domain;
 
@@ -8,14 +8,12 @@ namespace NWCodeFirstMVC.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly northwindContext _context;
+    private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, northwindContext context)
-        {
-            _logger = logger;
-            _context = context;
-        }
+    public HomeController(ILogger<HomeController> logger)
+    {
+        _logger = logger;
+    }
 
         public IActionResult Index()
         {

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NWCodeFirstMVC.Domain.Contracts;
 
 using NWCodeFirstMVC.Domain.Dto;
-using NWCodeFirstMVC.Domain.Models;
+// removed reference to NWCodeFirstMVC.Domain.Models (SQL Server scaffold)
 
 namespace NWCodeFirstMVC.Api.Controllers
 {
