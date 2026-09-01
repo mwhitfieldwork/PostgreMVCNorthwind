@@ -9,7 +9,7 @@ using NWCodeFirstMVC.Domain.PocoModels;
 
 namespace NWCodeFirstMVC.Api.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
 
     public class ProductController : ControllerBase
@@ -29,7 +29,8 @@ namespace NWCodeFirstMVC.Api.Controllers
                 try
                 {
                     var products = await _productService.GetAllAsync();
-                    return Ok(products);
+                    var productsDto = mapper.Map<List<GetProductDto>>(products);
+                    return Ok(productsDto);
                 }
                 catch (Exception ex)
                 {
@@ -52,7 +53,8 @@ namespace NWCodeFirstMVC.Api.Controllers
                     return NotFound();
                 }
 
-                return Ok(product);
+                var productDto = mapper.Map<GetProductDto>(product);
+                return Ok(productDto);
             }
             catch (Exception ex)
             {

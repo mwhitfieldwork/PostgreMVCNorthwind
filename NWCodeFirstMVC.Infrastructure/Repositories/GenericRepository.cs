@@ -22,9 +22,33 @@ namespace NWCodeFirstMVC.Infrastructure.Repositories
             return await _dc.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetAsync(int id)
+        public virtual async Task<T?> GetAsync(int? id)
         {
-            return await _dc.Set<T>().FindAsync(id);
+            if (id == null)
+                return null;
+
+            // Resolve primary key CLR type for entity T and convert the incoming id to that type
+            var entityType = _dc.Model.FindEntityType(typeof(T));
+            if (entityType == null || entityType.FindPrimaryKey() == null)
+            {
+                // Fallback to FindAsync with the int value
+                return await _dc.Set<T>().FindAsync(id.Value);
+            }
+
+            var keyProperty = entityType.FindPrimaryKey().Properties.First();
+            var keyClrType = keyProperty.ClrType;
+
+            try
+            {
+                var convertedKey = Convert.ChangeType(id.Value, keyClrType);
+                var found = await _dc.Set<T>().FindAsync(new object[] { convertedKey });
+                return found;
+            }
+            catch
+            {
+                // If conversion fails, try direct FindAsync as a last resort
+                return await _dc.Set<T>().FindAsync(id.Value);
+            }
         }
 
         public async Task<T> AddAsync(T entity)
