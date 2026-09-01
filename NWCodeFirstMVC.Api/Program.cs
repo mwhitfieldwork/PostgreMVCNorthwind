@@ -14,12 +14,13 @@ using NWCodeFirstMVC.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//if (builder.Environment.IsProduction())//for  prod
-//{//for  prod
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+// If the deployment platform (e.g. Railway) provides a PORT environment variable,
+// bind the web host to that port. Locally the app will continue to use launchSettings.json / Kestrel defaults.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
     builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
-//}//for  prod
+}
 
 builder.Services.AddDbContext<PgNwContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
