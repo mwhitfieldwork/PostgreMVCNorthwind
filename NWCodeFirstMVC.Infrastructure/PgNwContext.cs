@@ -473,7 +473,12 @@ namespace NWCodeFirstMVC.Infrastructure
                 entity.Property(e => e.TerritoryDescription)
                     .HasMaxLength(60)
                     .HasColumnName("territory_description");
-
+                entity.Property(e => e.Latitude)
+                    .HasPrecision(9, 6)
+                    .HasColumnName("latitude");
+                entity.Property(e => e.Longitude)
+                    .HasPrecision(9, 6)
+                    .HasColumnName("longitude");
                 entity.HasOne(d => d.Region)
                     .WithMany(p => p.Territories)
                     .HasForeignKey(d => d.RegionId)
