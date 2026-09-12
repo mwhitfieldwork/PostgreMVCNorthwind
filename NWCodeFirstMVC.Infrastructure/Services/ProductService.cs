@@ -39,6 +39,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
 
         public async Task UpdateAsync(ProductModel model)
         {
+
             var entity = _mapper.Map<Product>(model);
             await _repo.UpdateAsync(entity);
         }
