@@ -339,7 +339,7 @@ namespace NWCodeFirstMVC.Infrastructure
                 entity.ToTable("products");
 
                 entity.Property(e => e.ProductId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("product_id");
 
                 entity.Property(e => e.CategoryId).HasColumnName("category_id");
