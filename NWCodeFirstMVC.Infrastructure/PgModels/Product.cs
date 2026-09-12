@@ -9,7 +9,6 @@ namespace NWCodeFirstMVC.Infrastructure.PgModels
         {
             OrderDetails = new HashSet<OrderDetail>();
         }
-
         public short ProductId { get; set; }
         public string ProductName { get; set; } = null!;
         public short? SupplierId { get; set; }
