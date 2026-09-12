@@ -60,6 +60,21 @@ namespace NWCodeFirstMVC.Infrastructure.Repositories
 
         public async Task UpdateAsync(T entity)
         {
+            var key = _dc.Model.FindEntityType(typeof(T))!.FindPrimaryKey()!;
+            var keyValues = key.Properties
+                .Select(p => _dc.Entry(entity).Property(p.Name).CurrentValue)
+                .ToArray();
+
+            var tracked = _dc.Set<T>().Local
+                .FirstOrDefault(e => key.Properties
+                    .Select(p => _dc.Entry(e).Property(p.Name).CurrentValue)
+                    .SequenceEqual(keyValues));
+
+            if (tracked != null && tracked != entity)
+            {
+                _dc.Entry(tracked).State = EntityState.Detached;
+            }
+
             _dc.Set<T>().Update(entity);
             await _dc.SaveChangesAsync();
         }
