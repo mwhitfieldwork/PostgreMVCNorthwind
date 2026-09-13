@@ -50,6 +50,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                 orderby g.Key
                 select new SalesByCategoryDTO
                 {
+                    ProductId = g.First().od.ProductId,
                     ProductName = g.Key,
                     TotalPurchase = Math.Round(
                         g.Sum(x => x.od.Quantity * (1 - x.od.Discount) * x.od.UnitPrice),
