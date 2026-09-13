@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 namespace NWCodeFirstMVC.Domain.Dto
 {
     public class SalesByCategoryDTO {
-    
+
     [DataMember]
+    public int ProductId { get; set; }
+        [DataMember]
     public string ProductName { get; set; }
 
     [DataMember]
