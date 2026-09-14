@@ -50,8 +50,6 @@ namespace NWCodeFirstMVC.Infrastructure.Services
         }
         public async Task<IActionResult> AuthenticateWithGoogle(GoogleUserInfo googleUser)
         {
-            var isAdmin = googleUser.Email == "mwhitfieldwork@gmail.com";
-
             var userDetails = await _dc.Users
                 .FirstOrDefaultAsync(x => x.Username == googleUser.Email);
 
@@ -62,7 +60,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                     Username = googleUser.Email,
                     Password = Guid.NewGuid().ToString(),
                     Firstname = googleUser.Name,
-                    Admin = isAdmin,
+                    Admin = false, // granted later via the Admin Users screen
                     Occupation = string.Empty,
                     Picture = googleUser.Picture
                 };
@@ -72,7 +70,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
             else
             {
                 userDetails.Picture = googleUser.Picture;
-                userDetails.Admin = isAdmin;
+                // Admin is no longer touched here — managed via the checkbox in Admin Users
             }
 
             await _dc.SaveChangesAsync();
