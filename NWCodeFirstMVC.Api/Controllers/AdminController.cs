@@ -25,5 +25,22 @@ namespace NWCodeFirstMVC.Api.Controllers
             var dto = _mapper.Map<List<AdminUserDto>>(users);
             return Ok(dto);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] AdminUserDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var created = await _adminService.CreateAsync(dto);
+            return CreatedAtAction(nameof(GetById), new { id = created.Pkid}, created);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var dto = await _adminService.GetByIdAsync(id);
+            if (dto == null) return NotFound();
+            return Ok(dto);
+        }
     }
 }
