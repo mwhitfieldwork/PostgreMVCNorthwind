@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NWCodeFirstMVC.Domain.Contracts;
 using NWCodeFirstMVC.Infrastructure.Services;
+using NWCodeFirstMVC.Domain.Contracts;
 using NWCodeFirstMVC.Domain;
 using NwCodeFirstMVC.Data;
 using NWCodeFirstMVC.Domain;
@@ -54,6 +55,7 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IEmployeeTerritoryMap, EmployeeTerritoryMapService>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericService<>));
 builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.Configure<GoogleAuthOptions>(builder.Configuration.GetSection("GoogleAuth"));
 builder.Services.AddHttpClient<IGoogleAuthService, GoogleAuthService>();
 
