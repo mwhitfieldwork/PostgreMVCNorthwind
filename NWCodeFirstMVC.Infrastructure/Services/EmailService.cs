@@ -17,7 +17,7 @@ namespace NWCodeFirstMVC.Infrastructure.Services
             var smtp = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("mwhitfieldwork@gmail.com", "glmz wsgw fwey aqzc"),
+                Credentials = new NetworkCredential("mwhitfieldwork@gmail.com", "glmzwsgwfweyaqzc"),
                 EnableSsl = true
             };
 
@@ -26,18 +26,28 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                 IsBodyHtml = true
             };
 
-            await smtp.SendMailAsync(mail);
+            try
+            {
+                await smtp.SendMailAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SMTP ERROR:");
+                Console.WriteLine(ex.ToString());
+                throw; // bubble it up to controller
+            }
         }
+
         public async Task SendEmailAsync(string to, string subject, string body, byte[] attachmentBytes, string attachmentName)
         {
             var smtp = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("mwhitfieldwork@gmail.com", "glmz wsgw fwey aqzc"),
+                Credentials = new NetworkCredential("mwhitfieldwork@gmail.com", "glmzwsgwfweyaqzc"),
                 EnableSsl = true
             };
 
-            var mail = new MailMessage("yourEmail@gmail.com", to, subject, body)
+            var mail = new MailMessage("mwhitfieldwork@gmail.com", to, subject, body)
             {
                 IsBodyHtml = true
             };
@@ -47,7 +57,16 @@ namespace NWCodeFirstMVC.Infrastructure.Services
                 mail.Attachments.Add(new Attachment(new MemoryStream(attachmentBytes), attachmentName));
             }
 
-            await smtp.SendMailAsync(mail);
+            try
+            {
+                await smtp.SendMailAsync(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("SMTP ERROR:");
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
         }
 
     }
