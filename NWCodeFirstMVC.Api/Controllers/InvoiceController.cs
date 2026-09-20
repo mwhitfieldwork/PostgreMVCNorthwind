@@ -5,6 +5,7 @@ using NWCodeFirstMVC.Domain.Dto;
 
 namespace NWCodeFirstMVC.Api.Controllers
 {
+
     [Route("[controller]")]
     [ApiController]
     public class InvoiceController : ControllerBase
@@ -31,5 +32,13 @@ namespace NWCodeFirstMVC.Api.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("test-email")]
+        public async Task<IActionResult> TestEmail([FromServices] IEmailService email)
+        {
+            await email.SendEmailAsync("your-email@example.com", "Test", "<h1>Brevo works!</h1>");
+            return Ok("Sent");
+        }
     }
 }
+
