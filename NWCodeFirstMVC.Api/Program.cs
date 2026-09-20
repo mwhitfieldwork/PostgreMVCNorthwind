@@ -58,6 +58,9 @@ builder.Services.AddScoped<ProductRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.Configure<GoogleAuthOptions>(builder.Configuration.GetSection("GoogleAuth"));
 builder.Services.AddHttpClient<IGoogleAuthService, GoogleAuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<ICsvService, CsvService>();
 
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
