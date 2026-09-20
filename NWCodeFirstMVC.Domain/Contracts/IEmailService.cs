@@ -6,12 +6,6 @@ namespace NWCodeFirstMVC.Domain.Contracts
     {
         Task SendEmailAsync(string to, string subject, string body);
 
-        Task SendEmailAsync(
-            string to,
-            string subject,
-            string body,
-            byte[] attachmentBytes,
-            string attachmentName
-        );
+        Task SendEmailAsync(string to, string subject, string body, byte[] attachmentBytes, string attachmentName);
     }
 }
