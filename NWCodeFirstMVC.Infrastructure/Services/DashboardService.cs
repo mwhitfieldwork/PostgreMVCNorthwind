@@ -72,7 +72,70 @@ namespace NWCodeFirstMVC.Infrastructure.Services
         }
 
 
+        public async Task<List<SalesLineDTO>> GetSalesByDateRange(
+            DateTime beginningDate,
+            DateTime endingDate)
+        {
+            var begin = DateOnly.FromDateTime(beginningDate);
+            var end = DateOnly.FromDateTime(endingDate);
+
+            var results =
+                from o in _dc.Orders
+                join c in _dc.Customers on o.CustomerId equals c.CustomerId
+                join od in _dc.OrderDetails on o.OrderId equals od.OrderId
+                join p in _dc.Products on od.ProductId equals p.ProductId
+                join cat in _dc.Categories on p.CategoryId equals (int?)cat.CategoryId
+                join s in _dc.Shippers on o.ShipVia equals (int?)s.ShipperId
+                where o.OrderDate >= begin && o.OrderDate <= end
+                orderby o.OrderDate descending, o.OrderId
+                select new SalesLineDTO
+                {
+                    OrderId = o.OrderId,
+                    OrderDate = o.OrderDate.ToDateTime(TimeOnly.MinValue),
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.CompanyName,
+                    CustomerCountry = c.Country,
+                    CategoryName = cat.CategoryName,
+                    ProductName = p.ProductName,
+                    ShipperName = s.CompanyName,
+                    Quantity = od.Quantity,
+                    UnitPrice = (decimal)od.UnitPrice,
+                    Discount = (decimal)od.Discount,
+                    LineTotal = Math.Round((decimal)(od.UnitPrice * od.Quantity * (1 - od.Discount)), 2)
+                };
+
+            return await results.ToListAsync();
+        }
 
 
+        public async Task<List<SalesLineDTO>> GetSalesByDateRange()
+        {
+
+            var results =
+                from o in _dc.Orders
+                join c in _dc.Customers on o.CustomerId equals c.CustomerId
+                join od in _dc.OrderDetails on o.OrderId equals od.OrderId
+                join p in _dc.Products on od.ProductId equals p.ProductId
+                join cat in _dc.Categories on p.CategoryId equals (int?)cat.CategoryId
+                join s in _dc.Shippers on o.ShipVia equals (int?)s.ShipperId
+                orderby o.OrderDate descending, o.OrderId
+                select new SalesLineDTO
+                {
+                    OrderId = o.OrderId,
+                    OrderDate = o.OrderDate.ToDateTime(TimeOnly.MinValue),
+                    CustomerId = c.CustomerId,
+                    CustomerName = c.CompanyName,
+                    CustomerCountry = c.Country,
+                    CategoryName = cat.CategoryName,
+                    ProductName = p.ProductName,
+                    ShipperName = s.CompanyName,
+                    Quantity = od.Quantity,
+                    UnitPrice = (decimal)od.UnitPrice,
+                    Discount = (decimal)od.Discount,
+                    LineTotal = Math.Round((decimal)(od.UnitPrice * od.Quantity * (1 - od.Discount)), 2)
+                };
+
+            return await results.ToListAsync();
+        }
     }
 }

@@ -16,5 +16,8 @@ namespace NWCodeFirstMVC.Domain.Contracts
             DateTime beginningDate,
             DateTime endingDate);
 
+        Task<List<SalesLineDTO>> GetSalesByDateRange();
+        Task<List<SalesLineDTO>> GetSalesByDateRange(DateTime startDate, DateTime endDate);
+
     }
 }
