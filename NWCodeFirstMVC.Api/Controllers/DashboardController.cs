@@ -32,8 +32,8 @@ namespace NWCodeFirstMVC.Api.Controllers
 
         [HttpGet("salestotals")]
         public async Task<IActionResult> GetSalesTotalsValues(
-    [FromQuery] DateTime beginningDate,
-    [FromQuery] DateTime endingDate)
+        [FromQuery] DateTime beginningDate,
+        [FromQuery] DateTime endingDate)
         {
             var totals = await dashboardService.GetAllSalesTotals(beginningDate, endingDate);
             return Ok(totals);
@@ -46,5 +46,29 @@ namespace NWCodeFirstMVC.Api.Controllers
             var sales = await dashboardService.GetAllAsync();
             return Ok(sales);
         }
+
+        // GET api/dashboard/sales
+        [HttpGet("sales")]
+        public async Task<ActionResult<List<SalesLineDTO>>> GetAllSales()
+        {
+            var results = await dashboardService.GetSalesByDateRange();
+            return Ok(results);
+        }
+
+        // GET api/dashboard/sales/range?beginningDate=1998-01-01&endingDate=1998-03-31
+        [HttpGet("sales/range")]
+        public async Task<ActionResult<List<SalesLineDTO>>> GetSalesByDateRange(
+            [FromQuery] DateTime beginningDate,
+            [FromQuery] DateTime endingDate)
+        {
+            if (beginningDate > endingDate)
+            {
+                return BadRequest("beginningDate must be on or before endingDate.");
+            }
+
+            var results = await dashboardService.GetSalesByDateRange(beginningDate, endingDate);
+            return Ok(results);
+        }
+
     }
 }
